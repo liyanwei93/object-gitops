@@ -15,7 +15,13 @@ spec:
         name: delete-script-waitting
         namespace: katamari
       spec:
+        selector:
+          matchLabels:
+            app: deleting
         template:
+          metadata:
+            labels:
+              app: deleting
           spec:
             containers:
               - name: deleting
@@ -42,7 +48,7 @@ spec:
                       sleep 2s
                     done
 
-            restartPolicy: Never
+            restartPolicy: Always
             serviceAccountName: ibm-crossplane-provider-kubernetes
         backoffLimit: 1
   providerConfigRef:
