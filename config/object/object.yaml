@@ -14,7 +14,7 @@ spec:
       metadata:
         # name in manifest is optional and defaults to Object name
         name: foo
-        namespace: test
+        namespace: cp4waiops
       data:
         sample-key: sample-value
   providerConfigRef:
