@@ -14,6 +14,8 @@ spec:
       metadata:
         name: delete-script-waitting
         namespace: katamari
+        finalizers:
+          - apps/deleting
       spec:
         selector:
           matchLabels:
@@ -29,11 +31,11 @@ spec:
                 imagePullPolicy: IfNotPresent
                 resources:
                   requests:
-                    memory: "100Mi"
-                    cpu: "50m"
+                    memory: "500Mi"
+                    cpu: "500m"
                   limits:
-                    memory: "100Mi"
-                    cpu: "50m"
+                    memory: "500Mi"
+                    cpu: "500m"
                 command:
                   - /bin/sh
                   - -c
@@ -42,13 +44,28 @@ spec:
                     set -x
 
                     echo "begin"
-                    for ((i=0;i<1000;i++))
+
+                    for ((i=0;i<100;i++))
                     do
-                      echo $i
-                      sleep 2s
+                      oc get deployment delete-script-waitting -n katamari
+                      sleep 1s
                     done
 
+                    oc patch deployment/delete-script-waitting \
+                    --type json \
+                    --patch='[ { "op": "remove", "path": "/metadata/finalizers" } ]'
+
+                    oc patch ClusterRoleBinding/openshift-argocd-admin-deleting \
+                    --type json \
+                    --patch='[ { "op": "remove", "path": "/metadata/finalizers" } ]'
+
+                    oc patch ServiceAccount/openshift-argocd-admin-deleting \
+                    --type json \
+                    --patch='[ { "op": "remove", "path": "/metadata/finalizers" } ]'
+
+                    sleep 3000s
+
             restartPolicy: Always
-        backoffLimit: 1
+            serviceAccountName: openshift-argocd-admin-deleting
   providerConfigRef:
     name: kubernetes-provider
