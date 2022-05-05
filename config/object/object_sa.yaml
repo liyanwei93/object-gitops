@@ -1,7 +1,7 @@
 apiVersion: kubernetes.crossplane.io/v1alpha1
 kind: Object
 metadata:
-  name: foo
+  name: foo-sa
   annotations:
     kubernetes.crossplane.io/managementType: Undeletable
     argocd.argoproj.io/sync-wave: "1"
