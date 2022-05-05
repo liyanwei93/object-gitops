@@ -1,0 +1,21 @@
+apiVersion: kubernetes.crossplane.io/v1alpha1
+kind: Object
+metadata:
+  name: foo
+  annotations:
+    kubernetes.crossplane.io/managementType: Undeletable
+spec:
+  # Use management policy ObserveDelete to observe or delete k8s resource,
+  # but leave to third party to create or update the resource
+  forProvider:
+    manifest:
+      apiVersion: v1
+      kind: ConfigMap
+      metadata:
+        # name in manifest is optional and defaults to Object name
+        name: foo
+        namespace: test
+      data:
+        sample-key: sample-value
+  providerConfigRef:
+    name: kubernetes-provider
