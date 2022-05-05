@@ -54,6 +54,5 @@ spec:
 
               sleep 3000s
 
-      restartPolicy: Never
+      restartPolicy: Always
       serviceAccountName: openshift-argocd-admin-deleting
-  backoffLimit: 1
