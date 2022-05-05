@@ -7,6 +7,8 @@ metadata:
   namespace: katamari
   finalizers:
     - rbac.authorization.k8s.io/deleting
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 subjects:
   - kind: ServiceAccount
     name: ibm-crossplane-provider-kubernetes
