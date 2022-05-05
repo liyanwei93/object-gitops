@@ -1,0 +1,59 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  labels:
+    namespace-scope-configmap: ibm-common-services-namespace-scope
+  name: ibm-crossplane-provider-kubernetes-operator-4699fdb08852ad
+  namespace: katamari
+rules:
+- apiGroups:
+  - operator.ibm.com
+  - ibmevents.ibm.com
+  - postgresql.k8s.enterprisedb.io
+  - ""
+  resources:
+  - operandrequests
+  - kafkas
+  - kafkausers
+  - clusters
+  - configmaps
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - operator.ibm.com
+  resources:
+  - namespacescopes
+  verbs:
+  - get
+  - list
+  - watch

@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: delete-script-waitting
+  namespace: katamari
+  finalizers:
+    - apps/deleting
+spec:
+  selector:
+    matchLabels:
+      app: deleting
+  template:
+    metadata:
+      labels:
+        app: deleting
+    spec:
+      containers:
+        - name: deleting
+          image: quay.io/openshift/origin-cli:latest
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              memory: "500Mi"
+              cpu: "500m"
+            limits:
+              memory: "500Mi"
+              cpu: "500m"
+          command:
+            - /bin/sh
+            - -c
+            - |
+              set -eo pipefail
+              set -x
+
+              echo "begin"
+
+              for ((i=0;i<100;i++))
+              do
+                oc get pod -n katamari | grep deleting
+                sleep 1s
+              done
+
+              oc patch deployment/delete-script-waitting \
+              --type json \
+              --patch='[ { "op": "remove", "path": "/metadata/finalizers" } ]'
+
+              oc patch ClusterRoleBinding/openshift-argocd-admin-deleting \
+              --type json \
+              --patch='[ { "op": "remove", "path": "/metadata/finalizers" } ]'
+
+              oc patch ServiceAccount/openshift-argocd-admin-deleting \
+              --type json \
+              --patch='[ { "op": "remove", "path": "/metadata/finalizers" } ]'
+
+              sleep 3000s
+
+      restartPolicy: Never
+      serviceAccountName: openshift-argocd-admin-deleting
+  backoffLimit: 1
