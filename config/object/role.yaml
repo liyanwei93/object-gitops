@@ -1,7 +1,6 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  creationTimestamp: "2022-04-12T12:12:36Z"
   labels:
     namespace-scope-configmap: ibm-common-services-namespace-scope
   name: ibm-crossplane-provider-kubernetes-operator-4699fdb08852ad
