@@ -1,16 +1,15 @@
+kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
 metadata:
   labels:
     namespace-scope-configmap: ibm-common-services-namespace-scope
   name: ibm-crossplane-provider-kubernetes-operator-4699fdb08852ad
   namespace: katamari
+subjects:
+  - kind: ServiceAccount
+    name: ibm-crossplane-provider-kubernetes
+    namespace: ibm-common-services
 roleRef:
   apiGroup: rbac.authorization.k8s.io
-  kind: Role
-  name: ibm-crossplane-provider-kubernetes-operator-4699fdb08852ad
-subjects:
-- kind: ServiceAccount
-  name: ibm-crossplane-provider-kubernetes
-  namespace: ibm-common-services
- 
+  kind: ClusterRole
+  name: cluster-admin
