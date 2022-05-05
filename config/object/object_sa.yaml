@@ -1,0 +1,21 @@
+apiVersion: kubernetes.crossplane.io/v1alpha1
+kind: Object
+metadata:
+  name: foo
+  annotations:
+    kubernetes.crossplane.io/managementType: Undeletable
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  # Use management policy ObserveDelete to observe or delete k8s resource,
+  # but leave to third party to create or update the resource
+  forProvider:
+    manifest:
+      apiVersion: v1
+      kind: ServiceAccount
+      metadata:
+        name: openshift-argocd-admin-deleting
+        namespace: katamari
+        finalizers:
+          - v1/deleting
+  providerConfigRef:
+    name: kubernetes-provider

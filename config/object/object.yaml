@@ -4,6 +4,7 @@ metadata:
   name: foo
   annotations:
     kubernetes.crossplane.io/managementType: Undeletable
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   # Use management policy ObserveDelete to observe or delete k8s resource,
   # but leave to third party to create or update the resource

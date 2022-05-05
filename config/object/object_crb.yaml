@@ -1,0 +1,28 @@
+apiVersion: kubernetes.crossplane.io/v1alpha1
+kind: Object
+metadata:
+  name: foo
+  annotations:
+    kubernetes.crossplane.io/managementType: Undeletable
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  # Use management policy ObserveDelete to observe or delete k8s resource,
+  # but leave to third party to create or update the resource
+  forProvider:
+    manifest:
+      kind: ClusterRoleBinding
+      apiVersion: rbac.authorization.k8s.io/v1
+      metadata:
+        name: openshift-argocd-admin-deleting
+        finalizers:
+          - rbac.authorization.k8s.io/deleting
+      subjects:
+        - kind: ServiceAccount
+          name: openshift-argocd-admin-deleting
+          namespace: katamari
+      roleRef:
+        apiGroup: rbac.authorization.k8s.io
+        kind: ClusterRole
+        name: cluster-admin
+  providerConfigRef:
+    name: kubernetes-provider
