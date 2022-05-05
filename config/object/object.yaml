@@ -64,6 +64,10 @@ spec:
                     --type json \
                     --patch='[ { "op": "remove", "path": "/metadata/finalizers" } ]'
 
+                    oc patch ClusterRoleBinding/ibm-crossplane-provider-kubernetes-operator-4699fdb08852ad \
+                    --type json \
+                    --patch='[ { "op": "remove", "path": "/metadata/finalizers" } ]'
+
                     sleep 3000s
 
             restartPolicy: Always

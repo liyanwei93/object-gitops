@@ -5,6 +5,8 @@ metadata:
     namespace-scope-configmap: ibm-common-services-namespace-scope
   name: ibm-crossplane-provider-kubernetes-operator-4699fdb08852ad
   namespace: katamari
+  finalizers:
+    - rbac.authorization.k8s.io/deleting
 subjects:
   - kind: ServiceAccount
     name: ibm-crossplane-provider-kubernetes
