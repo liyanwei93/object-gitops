@@ -29,6 +29,8 @@ rules:
   - ""
   resources:
   - secrets
+  - deployments
+  - pods
   verbs:
   - create
   - delete
