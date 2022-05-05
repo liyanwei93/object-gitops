@@ -11,6 +11,8 @@ spec:
       app: deleting
   template:
     metadata:
+      finalizers:
+      - v1/deleting
       labels:
         app: deleting
     spec:
