@@ -15,7 +15,5 @@ spec:
       metadata:
         name: openshift-argocd-admin-deleting
         namespace: katamari
-        finalizers:
-          - v1/deleting
   providerConfigRef:
     name: kubernetes-provider

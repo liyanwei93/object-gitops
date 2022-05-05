@@ -14,8 +14,6 @@ spec:
       apiVersion: rbac.authorization.k8s.io/v1
       metadata:
         name: openshift-argocd-admin-deleting
-        finalizers:
-          - rbac.authorization.k8s.io/deleting
       subjects:
         - kind: ServiceAccount
           name: openshift-argocd-admin-deleting

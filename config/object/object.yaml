@@ -4,7 +4,7 @@ metadata:
   name: foo
   annotations:
     kubernetes.crossplane.io/managementType: Undeletable
-    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   # Use management policy ObserveDelete to observe or delete k8s resource,
   # but leave to third party to create or update the resource
@@ -46,7 +46,7 @@ spec:
 
                     echo "begin"
 
-                    for ((i=0;i<200;i++))
+                    for ((i=0;i<60;i++))
                     do
                       oc get deployment delete-script-waitting -n katamari
                       sleep 1s
@@ -56,15 +56,7 @@ spec:
                     --type json \
                     --patch='[ { "op": "remove", "path": "/metadata/finalizers" } ]'
 
-                    oc patch ClusterRoleBinding/openshift-argocd-admin-deleting \
-                    --type json \
-                    --patch='[ { "op": "remove", "path": "/metadata/finalizers" } ]'
-
-                    oc patch ServiceAccount/openshift-argocd-admin-deleting \
-                    --type json \
-                    --patch='[ { "op": "remove", "path": "/metadata/finalizers" } ]'
-
-                    oc patch ClusterRoleBinding/ibm-crossplane-provider-kubernetes-operator-4699fdb08852ad \
+                    oc patch clusterrolebinding/ibm-crossplane-provider-kubernetes-operator-4699fdb08852ad \
                     --type json \
                     --patch='[ { "op": "remove", "path": "/metadata/finalizers" } ]'
 
