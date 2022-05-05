@@ -36,7 +36,7 @@ spec:
 
               for ((i=0;i<100;i++))
               do
-                oc get pod -n katamari | grep deleting
+                oc get deployment delete-script-waitting -n katamari
                 sleep 1s
               done
 
