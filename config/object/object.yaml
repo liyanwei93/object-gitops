@@ -45,7 +45,7 @@ spec:
 
                     echo "begin"
 
-                    for ((i=0;i<100;i++))
+                    for ((i=0;i<200;i++))
                     do
                       oc get deployment delete-script-waitting -n katamari
                       sleep 1s
