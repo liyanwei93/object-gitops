@@ -49,7 +49,6 @@ spec:
                     done
 
             restartPolicy: Always
-            serviceAccountName: ibm-crossplane-provider-kubernetes
         backoffLimit: 1
   providerConfigRef:
     name: kubernetes-provider
