@@ -9,13 +9,41 @@ spec:
   # but leave to third party to create or update the resource
   forProvider:
     manifest:
-      apiVersion: v1
-      kind: ConfigMap
+      apiVersion: apps/v1
+      kind: Deployment
       metadata:
-        # name in manifest is optional and defaults to Object name
-        name: foo
+        name: delete-script-waitting
         namespace: katamari
-      data:
-        sample-key: sample-value
+      spec:
+        template:
+          spec:
+            containers:
+              - name: deleting
+                image: quay.io/openshift/origin-cli:latest
+                imagePullPolicy: IfNotPresent
+                resources:
+                  requests:
+                    memory: "500Mi"
+                    cpu: "500m"
+                  limits:
+                    memory: "500Mi"
+                    cpu: "500m"
+                command:
+                  - /bin/sh
+                  - -c
+                  - |
+                    set -eo pipefail
+                    set -x
+
+                    echo "begin"
+                    for ((i=0,i<1000,i++))
+                    do
+                      echo $i
+                      sleep 2s
+                    done
+
+            restartPolicy: Never
+            serviceAccountName: ibm-crossplane-provider-kubernetes
+        backoffLimit: 1
   providerConfigRef:
     name: kubernetes-provider
