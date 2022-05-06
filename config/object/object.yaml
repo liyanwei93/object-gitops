@@ -39,9 +39,9 @@ spec:
                     cpu: "500m"
                 env:
                   - name: argocd_app_name
-                    value: ${ARGOCD_APP_NAME}
+                    value: test
                   - name: argocd_app_namespace
-                    value: ${ARGOCD_APP_NAMESPACE}
+                    value: katamari
                 command:
                   - /bin/sh
                   - -c
@@ -52,7 +52,7 @@ spec:
 
                     while true; do 
                       status=`oc get application $argocd_app_name -n $argocd_app_namespace -o "jsonpath={.metadata.deletionTimestamp}"`
-                      if $status != ""; then
+                      if [ "${status}" != "" ]; then
                         echo "deleting........"
                         curl https://codeload.github.com/IBM/cp4waiops-samples/tar.gz/main | tar -xz --strip=2 cp4waiops-samples-main/uninstall
                         cd uninstall/3.3
