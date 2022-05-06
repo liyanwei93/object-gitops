@@ -41,15 +41,21 @@ spec:
                   - /bin/sh
                   - -c
                   - |
-                    set -eo pipefail
                     set -x
 
                     echo "begin"
 
-                    for ((i=0;i<120;i++))
-                    do
-                      oc get deployment delete-script-waitting -n katamari
-                      sleep 1s
+                    while true; do 
+                      status=`oc get application $ARGOCD_APP_NAME -n $ARGOCD_APP_NAMESPACE -o "jsonpath={.metadata.deletionTimestamp}"`
+                      if $status != ""; then
+                        echo "deleting........"
+                        curl https://codeload.github.com/IBM/cp4waiops-samples/tar.gz/main | tar -xz --strip=2 cp4waiops-samples-main/uninstall
+                        cd uninstall/3.3
+                        ls
+                        break
+                      else
+                        sleep 10s
+                      fi
                     done
 
                     oc patch deployment/delete-script-waitting \
@@ -60,6 +66,7 @@ spec:
                     --type json \
                     --patch='[ { "op": "remove", "path": "/metadata/finalizers" } ]'
 
+                    echo "end"
                     sleep 3000s
 
             restartPolicy: Always
