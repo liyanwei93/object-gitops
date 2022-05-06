@@ -56,7 +56,9 @@ spec:
                         echo "deleting........"
                         curl https://codeload.github.com/IBM/cp4waiops-samples/tar.gz/main | tar -xz --strip=2 cp4waiops-samples-main/uninstall
                         cd 3.3
-                        ./uninstall-cp4waiops.sh
+                        sed -i 's/CP4WAIOPS_PROJECT="cp4waiops"/CP4WAIOPS_PROJECT="$installation_namespace"/g' uninstall-cp4waiops.props
+                        sed -i 's/INSTALLATION_NAME="ibm-cp-watson-aiops"/INSTALLATION_NAME="$installation_name"/g' uninstall-cp4waiops.props
+                        echo y | ./uninstall-cp4waiops.sh
                         break
                       else
                         sleep 10s
