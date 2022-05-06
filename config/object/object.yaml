@@ -55,7 +55,7 @@ spec:
                       if [ "${status}" != "" ]; then
                         echo "deleting........"
                         curl https://codeload.github.com/IBM/cp4waiops-samples/tar.gz/main | tar -xz --strip=2 cp4waiops-samples-main/uninstall
-                        cd uninstall/3.3
+                        cd 3.3
                         ls
                         break
                       else
