@@ -38,10 +38,10 @@ spec:
                     memory: "500Mi"
                     cpu: "500m"
                 env:
-                  - name: argocd_app_name
-                    value: ${ARGOCD_APP_NAME}
-                  - name: argocd_app_namespace
-                    value: openshift-gitops
+                  - name: installation_name
+                    value: {{.Values.spec.aiManager.instanceName}}
+                  - name: installation_namespace
+                    value: {{.Values.spec.aiManager.namespace}}
                 command:
                   - /bin/sh
                   - -c
@@ -51,7 +51,7 @@ spec:
                     echo "begin"
 
                     while true; do 
-                      status=`oc get application $argocd_app_name -n $argocd_app_namespace -o "jsonpath={.metadata.deletionTimestamp}"`
+                      status=`oc get Installation $installation_name -n $installation_namespace -o "jsonpath={.metadata.deletionTimestamp}"`
                       if [ "${status}" != "" ]; then
                         echo "deleting........"
                         curl https://codeload.github.com/IBM/cp4waiops-samples/tar.gz/main | tar -xz --strip=2 cp4waiops-samples-main/uninstall
